@@ -46,7 +46,7 @@ def getListings(base_url, start="0", latest_epoch=0):
     listings = soup.find_all('li', class_='result-row')
     for listing in listings:
         listing_url = listing.a['href']
-        listing_img_ele = listing.find('a', class_='result-image gallery')
+        listing_img_ele = listing.find('a', class_='card-image-wrapper')
         listing_img_url = None
         if listing_img_ele:
             listing_img_data_ids = listing_img_ele["data-ids"]
@@ -55,7 +55,7 @@ def getListings(base_url, start="0", latest_epoch=0):
                 listing_img_url = f'https://images.craigslist.org/{listing_img_data_id}_300x300.jpg'
         listing_datetime_string = listing.find('time', class_='result-date')['datetime']
         # check if timezone ok
-        listing_title = getTextOfChild(listing, "a", "result-title hdrlnk", "Not stated")
+        listing_title = getTextOfChild(listing, "div", "content-row", "Not stated")
         listing_price = getTextOfChild(listing, "span", "result-price", "Not stated")
         listing_distance = getTextOfChild(listing, "span", "maptag", "Not stated")
         listing = Listing(
